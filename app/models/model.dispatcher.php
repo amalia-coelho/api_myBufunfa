@@ -2,22 +2,30 @@
 class Dispatcher {
     private $routes = [];
 
-    // Adiciona uma nova rota
-    public function addRoute($method, $path, $action) {
-        $this->routes[] = ['method' => $method, 'path' => $path, 'action' => $action];
+    public function addRoute($method, $path, $handler) {
+        $this->routes[] = [
+            'method' => $method,
+            'path' => $path,
+            'handler' => $handler,
+        ];
     }
 
-    // Roda o roteador
     public function run($requestUri, $requestMethod) {
         foreach ($this->routes as $route) {
-            if ($requestMethod == $route['method'] && $requestUri == $route['path']) {
-                include_once $route['action']; // Inclui a rota correspondente
+            if ($requestMethod === $route['method'] && $requestUri === $route['path']) {
+                $handler = $route['handler'];
+                if (function_exists($handler)) {
+                    $handler([]); // Você pode passar parâmetros se necessário
+                } else {
+                    http_response_code(404);
+                    echo json_encode(['message' => 'Handler not found']);
+                }
                 return;
             }
         }
-        // Retorna 404 se não encontrar a rota
+
         http_response_code(404);
-        echo json_encode(["message" => "Rota não encontrada"]);
+        echo json_encode(['message' => 'Rota não encontrada']);
     }
 }
 ?>

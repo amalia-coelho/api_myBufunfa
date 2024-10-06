@@ -2,15 +2,6 @@
 
 class User {
     public static function register($email, $password, $name){
-        if (empty($email) or empty($password) or empty($name)){
-            $resp = array(
-                'status' => 'error',
-                'content' => "Parâmetros insuficientes"
-            );
-            
-            return $resp;
-        }
-
         try {
             $sql = "SELECT id FROM users WHERE email = :email";
             $params = [
