@@ -1,5 +1,5 @@
 <?php
-class Database {
+class Db {
     private static $conn = null;
 
     public static function connect() {
@@ -9,13 +9,14 @@ class Database {
                 $dbname = 'mybufunfa';
                 $username = 'root';
                 $password = 'root';
-
+    
                 self::$conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
                 self::$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 self::$conn->exec("set names utf8");
             } catch (PDOException $e) {
-                echo "Erro de conexão: " . $e->getMessage();
-                exit;
+                // Exibe o erro de conexão
+                error_log("Erro de conexão: " . $e->getMessage());
+                throw new Exception("Erro ao conectar ao banco de dados.");
             }
         }
         return self::$conn;

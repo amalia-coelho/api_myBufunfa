@@ -1,8 +1,8 @@
 <?php
     // Descomente para debugar erros
-    // ini_set('display_errors', 1);
-    // ini_set('display_startup_errors', 1);
-    // error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
 
     require_once __DIR__."/vendor/autoload.php";
     require_once __DIR__ .'/app/config/init.php';
@@ -18,6 +18,6 @@
 
     if ($result){
         // Se a rota foi encontrada, retorna o resultado
-        echo json_encode($result);
+        return json_encode($result);
     }
 ?>

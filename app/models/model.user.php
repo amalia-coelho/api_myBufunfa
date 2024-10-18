@@ -64,5 +64,36 @@ class User {
         }
         return false;
     }
+
+    public static function check_email($email) {
+        try {
+            $sql = "SELECT id FROM users WHERE email = :email";
+            $db = Db::connect();
+            $query = $db->prepare($sql);
+            $query->bindParam(':email', $email);
+            $query->execute();
+    
+            $result = $query->fetch(PDO::FETCH_ASSOC);
+    
+            if ($result) {
+                $resp = [
+                    'status' => 'success',
+                    'content' => true
+                ];
+            } else {
+                $resp = [
+                    'status' => 'success',
+                    'content' => false
+                ];
+            }
+    
+            return json_encode($resp);
+        } catch (Exception $e) {
+            return json_encode([
+                'status' => 'error',
+                'content' => 'Erro ao verificar e-mail: ' . $e->getMessage()
+            ]);
+        }
+    }
 }
 ?>

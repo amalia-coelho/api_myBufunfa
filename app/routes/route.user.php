@@ -17,4 +17,20 @@
         $response = User::register($email, $password, $name);
         echo json_encode($response);
     }
+
+    function check_email($vars){
+        $email = $_POST['email'] ?? null;
+
+        if (empty($email)) {
+            $resp = [
+                'status' => 'error',
+                'content' => "Parâmetros insuficientes"
+            ];
+            return json_encode($resp);
+        }
+
+        $resp = User::check_email($email);
+
+        echo $resp;
+    }
 ?>
